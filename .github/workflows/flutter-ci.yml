@@ -1,0 +1,65 @@
+name: Flutter CI — تحليل وبناء تلقائي
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+
+jobs:
+  analyze-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: استنساخ الكود
+        uses: actions/checkout@v4
+
+      - name: تثبيت Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+
+      - name: عرض معلومات البيئة (flutter doctor)
+        run: flutter doctor -v
+
+      - name: تحميل الاعتماديات (pub get)
+        run: flutter pub get
+
+      - name: فحص التنسيق (dart format)
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: التحليل الساكن (flutter analyze)
+        run: flutter analyze
+
+      - name: تشغيل الاختبارات (إن وجدت)
+        run: flutter test
+        continue-on-error: true
+
+      - name: بناء APK (أندرويد) — إصدار Debug للتحقق السريع
+        run: flutter build apk --debug
+
+      - name: رفع ملف APK كمخرج قابل للتنزيل
+        uses: actions/upload-artifact@v4
+        with:
+          name: wahy-quran-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 14
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: استنساخ الكود
+        uses: actions/checkout@v4
+
+      - name: تثبيت Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+
+      - name: تحميل الاعتماديات (pub get)
+        run: flutter pub get
+
+      - name: بناء iOS بدون توقيع (للتحقق من نجاح البناء فقط)
+        run: flutter build ios --no-codesign --debug
