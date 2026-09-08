@@ -77,4 +77,19 @@ class _SearchScreenState extends State<SearchScreen> {
                           style: const TextStyle(fontSize: 18),
                         ),
                         subtitle: Text(
-                            'سورة رقم ${ayah.surahId} - الآية ${
+                            'سورة رقم ${ayah.surahId} - الآية ${ayah.ayahNumber}'),
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  SurahScreen(surahId: ayah.surahId),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+      ),
+    );
+  }
+}
