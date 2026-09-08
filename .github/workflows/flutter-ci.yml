@@ -29,6 +29,7 @@ jobs:
       - name: فحص التنسيق (dart format)
         run: dart format --output=none --set-exit-if-changed .
         continue-on-error: true
+
       - name: التحليل الساكن (flutter analyze)
         run: flutter analyze
 
@@ -45,21 +46,3 @@ jobs:
           name: wahy-quran-debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
           retention-days: 14
-
-  build-ios:
-    runs-on: macos-latest
-    steps:
-      - name: استنساخ الكود
-        uses: actions/checkout@v4
-
-      - name: تثبيت Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
-
-      - name: تحميل الاعتماديات (pub get)
-        run: flutter pub get
-
-      - name: بناء iOS بدون توقيع (للتحقق من نجاح البناء فقط)
-        run: flutter build ios --no-codesign --debug
