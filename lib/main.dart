@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -14,6 +15,11 @@ class WahyQuranApp extends StatelessWidget {
       title: 'وحي — المصحف الشريف',
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       supportedLocales: const [Locale('ar'), Locale('en')],
       theme: ThemeData(
         useMaterial3: true,
