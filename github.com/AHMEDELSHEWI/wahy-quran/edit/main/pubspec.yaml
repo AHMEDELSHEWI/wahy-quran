@@ -24,6 +24,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/db/quran.db
+    - assets/mushaf_pages/
   fonts:
     - family: AmiriQuran
       fonts:
