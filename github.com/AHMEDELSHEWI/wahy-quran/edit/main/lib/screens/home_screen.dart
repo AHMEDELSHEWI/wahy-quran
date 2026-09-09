@@ -5,6 +5,7 @@ import '../models/surah.dart';
 import 'surah_screen.dart';
 import 'search_screen.dart';
 import 'about_screen.dart';
+import 'mushaf_viewer_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,18 +35,18 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.search),
               tooltip: 'بحث',
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const SearchScreen()),
-                );
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const SearchScreen()));
               },
             ),
             IconButton(
               icon: const Icon(Icons.info_outline),
               tooltip: 'حول المصدر والتوثيق',
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const AboutScreen()),
-                );
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const AboutScreen()));
               },
             ),
           ],
@@ -57,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
               return const Center(child: CircularProgressIndicator());
             }
             if (snapshot.hasError) {
-              return Center(child: Text('خطأ في تحميل البيانات: ${snapshot.error}'));
+              return Center(
+                child: Text('خطأ في تحميل البيانات: ${snapshot.error}'),
+              );
             }
             final surahs = snapshot.data ?? [];
             return ListView.separated(
@@ -66,9 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
               itemBuilder: (context, index) {
                 final surah = surahs[index];
                 return ListTile(
-                  leading: CircleAvatar(
-                    child: Text('${surah.id}'),
-                  ),
+                  leading: CircleAvatar(child: Text('${surah.id}')),
                   title: Text(
                     surah.nameAr,
                     style: const TextStyle(fontSize: 18),
@@ -87,6 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             );
           },
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const MushafViewerScreen()),
+            );
+          },
+          icon: const Icon(Icons.menu_book),
+          label: const Text('فتح المصحف'),
         ),
       ),
     );
