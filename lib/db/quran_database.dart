@@ -37,8 +37,10 @@ class QuranDatabase {
     final dbFile = File(dbPath);
     if (!await dbFile.exists()) {
       final data = await rootBundle.load(_dbAssetPath);
-      final bytes =
-          data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+      final bytes = data.buffer.asUint8List(
+        data.offsetInBytes,
+        data.lengthInBytes,
+      );
       await dbFile.writeAsBytes(bytes, flush: true);
     }
 
@@ -87,17 +89,72 @@ class QuranDatabase {
   /// Simple substring search across ayah text (diacritic-sensitive).
   /// A production release should add a normalized (no-tashkeel) search
   /// index — left as a follow-up item, see README.
-  Future<List<Ayah>> searchAyat(String query) async {
+  Future<List<Ayah>> searchAyat(String query, {String qiraah = 'hafs'}) async {
     if (query.trim().isEmpty) return [];
     final db = await database;
-    final maps = await db.query(
-      'ayat',
-      where: 'text_uthmani LIKE ?',
-      whereArgs: ['%$query%'],
-      orderBy: 'surah_id ASC, ayah_number ASC',
-      limit: 200,
-    );
-    return maps.map((m) => Ayah.fromMap(m)).toList();
+
+    // محاولة البحث في جدول ayat_multi أولاً (إن وجد)
+    try {
+      final maps = await db.rawQuery(
+        '''SELECT id, surah_id, ayah_number, text AS text_uthmani,
+           qiraat_id AS riwayah
+           FROM ayat_multi
+           WHERE text LIKE ? AND qiraat_id = ?
+           ORDER BY surah_id ASC, ayah_number ASC
+           LIMIT 200''',
+        ['%$query%', qiraah],
+      );
+      return maps.map((m) => Ayah.fromMap(m)).toList();
+    } catch (e) {
+      // استرجاع إلى جدول ayat القديم للتوافق العكسي
+      final maps = await db.query(
+        'ayat',
+        where: 'text_uthmani LIKE ?',
+        whereArgs: ['%$query%'],
+        orderBy: 'surah_id ASC, ayah_number ASC',
+        limit: 200,
+      );
+      return maps.map((m) => Ayah.fromMap(m)).toList();
+    }
+  }
+
+  // ---------- Multi-Qiraat Support ----------
+
+  /// الحصول على قائمة جميع الروايات المتاحة
+  Future<List<Map<String, dynamic>>> getAvailableQiraat() async {
+    final db = await database;
+    try {
+      return await db.query('qiraat', orderBy: 'id ASC');
+    } catch (e) {
+      // إذا لم يكن جدول qiraat موجود، أرجع قائمة افتراضية
+      return [
+        {
+          'id': 'hafs',
+          'name_ar': 'حفص',
+          'name_en': 'Hafs an Asim',
+          'description': 'الرواية الأكثر انتشاراً عالمياً',
+        },
+      ];
+    }
+  }
+
+  /// الحصول على آيات سورة بقراءة محددة
+  Future<List<Ayah>> getAyatBySurahAndQiraat(int surahId, String qiraah) async {
+    final db = await database;
+    try {
+      final maps = await db.rawQuery(
+        '''SELECT id, surah_id, ayah_number, text AS text_uthmani,
+           qiraat_id AS riwayah
+           FROM ayat_multi
+           WHERE surah_id = ? AND qiraat_id = ?
+           ORDER BY ayah_number ASC''',
+        [surahId, qiraah],
+      );
+      return maps.map((m) => Ayah.fromMap(m)).toList();
+    } catch (e) {
+      // استرجاع إلى getAyatBySurah القديم
+      return getAyatBySurah(surahId);
+    }
   }
 
   // ---------- Provenance ----------
