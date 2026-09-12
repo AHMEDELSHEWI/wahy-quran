@@ -7,7 +7,9 @@ import '../widgets/ayah_tile.dart';
 
 class SurahScreen extends StatefulWidget {
   final int surahId;
-  const SurahScreen({super.key, required this.surahId});
+  final String qiraat;
+
+  const SurahScreen({super.key, required this.surahId, this.qiraat = 'hafs'});
 
   @override
   State<SurahScreen> createState() => _SurahScreenState();
@@ -24,7 +26,10 @@ class _SurahScreenState extends State<SurahScreen> {
 
   Future<_SurahData> _load() async {
     final surah = await QuranDatabase.instance.getSurahById(widget.surahId);
-    final ayat = await QuranDatabase.instance.getAyatBySurah(widget.surahId);
+    final ayat = await QuranDatabase.instance.getAyatBySurahAndQiraat(
+      widget.surahId,
+      widget.qiraat,
+    );
     return _SurahData(surah: surah, ayat: ayat);
   }
 
@@ -39,8 +44,10 @@ class _SurahScreenState extends State<SurahScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('الآية ${ayah.ayahNumber}',
-                  style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                'الآية ${ayah.ayahNumber}',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 8),
               Text('الرواية: ${ayah.riwayahAr}'),
               Text('مرجع الرسم: مصحف المدينة النبوية (طبعة 1405هـ)'),
@@ -91,22 +98,25 @@ class _SurahScreenState extends State<SurahScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Text(
                       'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontFamily: 'AmiriQuran',
-                          ),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontFamily: 'AmiriQuran'),
                     ),
                   ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     child: Wrap(
                       textDirection: TextDirection.rtl,
                       children: ayat
-                          .map((a) => AyahTile(
-                                ayah: a,
-                                onLongPress: () => _showAyahDetails(a),
-                              ))
+                          .map(
+                            (a) => AyahTile(
+                              ayah: a,
+                              onLongPress: () => _showAyahDetails(a),
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
