@@ -6,9 +6,17 @@ import 'surah_screen.dart';
 import 'search_screen.dart';
 import 'about_screen.dart';
 import 'mushaf_viewer_screen.dart';
+import 'qiraat_picker_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final String selectedQiraat;
+  final Function(String) onQiraatChanged;
+
+  const HomeScreen({
+    super.key,
+    this.selectedQiraat = 'hafs',
+    required this.onQiraatChanged,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -31,6 +39,23 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('وحي — المصحف الشريف'),
           actions: [
+            IconButton(
+              icon: const Icon(Icons.menu_book_outlined),
+              tooltip: 'القراءة',
+              onPressed: () async {
+                final result = await Navigator.of(context).push<String>(
+                  MaterialPageRoute(
+                    builder: (_) => QiraatPickerScreen(
+                      initialQiraat: widget.selectedQiraat,
+                      onQiraatSelected: widget.onQiraatChanged,
+                    ),
+                  ),
+                );
+                if (result != null) {
+                  widget.onQiraatChanged(result);
+                }
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.search),
               tooltip: 'بحث',
@@ -80,7 +105,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) => SurahScreen(surahId: surah.id),
+                        builder: (_) => SurahScreen(
+                          surahId: surah.id,
+                          qiraat: widget.selectedQiraat,
+                        ),
                       ),
                     );
                   },
