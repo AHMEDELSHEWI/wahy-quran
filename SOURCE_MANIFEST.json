@@ -1,0 +1,17 @@
+{
+  "generated_by": "scripts/phase0/phase0_audit.py",
+  "assets": {
+    "assets/db/quran.db": {
+      "sha256": "3afad63e5bb23a75102275ec4f933578758a0f560af5f1b54613c4c084a1accd",
+      "bytes": 11042816
+    },
+    "assets/fonts/AmiriQuran-Regular.ttf": {
+      "sha256": "e2a47644762d16bdfb6d33e0d8db8c6ff30beae84150ef5a705316bbd829455c",
+      "bytes": 136920
+    },
+    "assets/mushaf_pages/*.jpg": {
+      "count": 604,
+      "total_bytes": 128193216
+    }
+  }
+}

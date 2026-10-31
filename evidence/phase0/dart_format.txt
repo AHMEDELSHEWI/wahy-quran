@@ -1,0 +1,5 @@
+dart format --output=none --set-exit-if-changed lib test
+exit=1 (test/ does not exist, so 'test' errors; for lib only:)
+Changed lib/models/surah.dart
+Changed lib/screens/surah_screen.dart
+Formatted 11 files (2 changed)
