@@ -1,0 +1,4 @@
+flutter 3.24.0 (stable, rev 80c2e84975), Dart 3.5.0, Ubuntu 24.04.5, Java OpenJDK 21.0.12, Gradle 8.14.3, Kotlin 2.0.21 (gradle), Node 22.23.4, npm 10.9.9, Python 3.13.18, git 2.43.0, Chrome for Testing 153
+flutter pub get: exit 0, 44 dependencies changed, 37 newer-but-incompatible
+Android SDK: not installed; dl.google.com unreachable (HTTP 000)
+GTK 3 dev libs: missing (Linux desktop target not used)

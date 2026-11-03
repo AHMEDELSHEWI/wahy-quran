@@ -1,0 +1,173 @@
+{
+  "sha256": "3afad63e5bb23a75102275ec4f933578758a0f560af5f1b54613c4c084a1accd",
+  "bytes": 11042816,
+  "tables": {
+    "surahs": 114
+  },
+  "qiraat_table": [
+    [
+      "hafs",
+      "Hafs",
+      1
+    ],
+    [
+      "warsh",
+      "Warsh",
+      1
+    ],
+    [
+      "qaloon",
+      "Qaloon",
+      1
+    ],
+    [
+      "doori",
+      "Doori",
+      1
+    ],
+    [
+      "shouba",
+      "Shouba",
+      1
+    ]
+  ],
+  "provenance_rows": [
+    [
+      "quran_text_uthmani",
+      "Tanzil Project (Uthmani script)",
+      "Creative Commons Attribution 3.0 (Tanzil Quran Text License)"
+    ]
+  ],
+  "ayat_riwayah_status": [
+    [
+      "hafs_an_asim",
+      "auto_imported_pending_scholar_review",
+      "tanzil_uthmani",
+      6236
+    ]
+  ],
+  "ayat_multi_by_qiraat": [
+    {
+      "qiraat_id": "doori",
+      "rows": 6217,
+      "distinct_ayah": 6217,
+      "empty_text": 0
+    },
+    {
+      "qiraat_id": "hafs",
+      "rows": 6236,
+      "distinct_ayah": 6236,
+      "empty_text": 0
+    },
+    {
+      "qiraat_id": "qaloon",
+      "rows": 6214,
+      "distinct_ayah": 6214,
+      "empty_text": 0
+    },
+    {
+      "qiraat_id": "shouba",
+      "rows": 6236,
+      "distinct_ayah": 6236,
+      "empty_text": 0
+    },
+    {
+      "qiraat_id": "warsh",
+      "rows": 6214,
+      "distinct_ayah": 6214,
+      "empty_text": 0
+    }
+  ],
+  "ayat_multi_non_integer_page_or_line": [
+    [
+      "doori",
+      5
+    ],
+    [
+      "qaloon",
+      4
+    ],
+    [
+      "warsh",
+      4
+    ]
+  ],
+  "ayat_multi_non_integer_examples": [
+    [
+      "warsh",
+      4,
+      44,
+      "85-86",
+      14,
+      1
+    ],
+    [
+      "warsh",
+      20,
+      86,
+      "317-318",
+      14,
+      2
+    ],
+    [
+      "warsh",
+      24,
+      36,
+      "354-355",
+      14,
+      2
+    ],
+    [
+      "warsh",
+      24,
+      42,
+      "355-356",
+      12,
+      1
+    ],
+    [
+      "qaloon",
+      4,
+      44,
+      "85-86",
+      14,
+      1
+    ]
+  ],
+  "hafs_vs_ayat_skeleton_mismatch": [
+    {
+      "surah": 2,
+      "ayah": 72
+    }
+  ],
+  "hafs_vs_ayat_exact_mismatch_count": 1141,
+  "variant_vs_hafs_skeleton_equal": {
+    "shouba": {
+      "rows": 6236,
+      "equal_after_skeleton": 6142,
+      "exact_equal": 5652
+    },
+    "warsh": {
+      "rows": 6214,
+      "equal_after_skeleton": 663,
+      "exact_equal": 14
+    },
+    "qaloon": {
+      "rows": 6214,
+      "equal_after_skeleton": 672,
+      "exact_equal": 26
+    },
+    "doori": {
+      "rows": 6217,
+      "equal_after_skeleton": 775,
+      "exact_equal": 634
+    }
+  },
+  "hafs_pages_distinct": 604,
+  "hafs_page_range": [
+    1,
+    604
+  ],
+  "pages_without_image": [],
+  "hafs_page_non_monotonic": 0
+}

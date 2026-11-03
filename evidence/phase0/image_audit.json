@@ -1,0 +1,29 @@
+{
+  "count": 604,
+  "min_page": 1,
+  "max_page": 604,
+  "missing_pages": [],
+  "extra_pages": [],
+  "dimension_groups": {
+    "[645, 1000]": 602,
+    "[486, 738]": 2
+  },
+  "non_standard_dimensions": [
+    {
+      "page": 1,
+      "wh": [
+        486,
+        738
+      ]
+    },
+    {
+      "page": 2,
+      "wh": [
+        486,
+        738
+      ]
+    }
+  ],
+  "duplicate_content_groups": [],
+  "total_bytes": 128193216
+}
